@@ -10,11 +10,14 @@ OBJDIR := obj
 BINDIR := bin
 INCLUDE := include
 
-TARGET := tm
+TARGET := cadence
 
-# Find all .c files
+# Find project sources and compile the SQLite amalgamation separately.
 SOURCES := $(shell find $(SRCDIR) -type f -name '*.c')
+SQLITE_SOURCE := ../third_party/sqlite-amalgamation-3540100/sqlite3.c
 OBJECTS := $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SOURCES))
+SQLITE_OBJECT := $(OBJDIR)/third_party/sqlite3.o
+SQLITE_CFLAGS := $(filter-out -W%,$(CFLAGS))
 
 # Find all .org files in the parent directory
 DOCSRC := $(wildcard ../*.org)
@@ -39,9 +42,13 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(SQLITE_OBJECT): $(SQLITE_SOURCE) | $(OBJDIR)
+	@mkdir -p $(dir $@)
+	$(CC) $(SQLITE_CFLAGS) -c $< -o $@
+
 # Link everything
-$(BINDIR)/$(TARGET): $(OBJECTS) | $(BINDIR)
-	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
+$(BINDIR)/$(TARGET): $(OBJECTS) $(SQLITE_OBJECT) | $(BINDIR)
+	$(CC) $(OBJECTS) $(SQLITE_OBJECT) $(LDFLAGS) -o $@
 
 .PHONY: debug
 debug: CFLAGS := $(filter-out -O2,$(CFLAGS)) $(DEBUG_FLAGS)

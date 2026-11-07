@@ -234,9 +234,9 @@ clear_terminal(void)
 }
 
 void
-gotoxy(unsigned x, unsigned y)
+gotoxy(size_t x, size_t y)
 {
-        printf("\033[%d;%dH", y+1, x+1);
+        printf("\033[%d;%dH", (int)y+1, (int)x+1);
 }
 
 void

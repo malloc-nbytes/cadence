@@ -1,2 +1,2 @@
 CompileFlags:
-  Add: [-Iinclude]
+  Add: [-Iinclude, -I../third_party/miniaudio/, -I../third_party/sqlite-amalgamation-3540100/]

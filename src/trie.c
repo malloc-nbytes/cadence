@@ -13,7 +13,7 @@ struct node {
         node_array children;
 };
 
-static void *
+void *
 trie_alloc(void)
 {
         node *root;
@@ -37,7 +37,7 @@ node_alloc(char ch)
         return n;
 }
 
-static int
+int
 trie_insert(void       *trie,
                   const char *word)
 {
@@ -133,7 +133,7 @@ collect_words(node    *n,
         }
 }
 
-static char **
+char **
 trie_get_completions(void       *trie,
                            const char *prefix,
                            size_t      max_results,
@@ -163,7 +163,7 @@ trie_get_completions(void       *trie,
         *out_count = count;
         return results;
 }
-static void
+void
 trie_destroy_node(node *n)
 {
         if (!n)

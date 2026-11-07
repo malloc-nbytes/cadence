@@ -1,0 +1,17 @@
+#ifndef COMMANDS_H_INCLUDED
+#define COMMANDS_H_INCLUDED
+
+#define COMMAND_MAIN_PLAYLISTS "playlists"
+#define COMMAND_MAIN_SETTINGS  "settings"
+#define COMMAND_MAIN_CREDITS   "credits"
+#define COMMAND_MAIN_COPYING   "copying"
+
+#define COMMAND_MAIN_AS_CPL { \
+        COMMAND_MAIN_PLAYLISTS, \
+        COMMAND_MAIN_SETTINGS, \
+        COMMAND_MAIN_CREDITS, \
+        COMMAND_MAIN_COPYING, \
+        NULL, \
+}
+
+#endif // COMMANDS_H_INCLUDED

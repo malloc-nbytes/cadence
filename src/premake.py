@@ -10,7 +10,7 @@ import os
 CONFIG_H_PATH = 'include/config.h'
 
 CFLAGS = [
-    "-Iinclude", "-I../third_party/miniaudio/", "-ggdb", "-O2", "-Wall", "-Wextra", "-std=gnu17",
+    "-Iinclude", "-I../third_party/miniaudio/", "-I../third_party/sqlite-amalgamation-3540100/", "-ggdb", "-O2", "-Wall", "-Wextra", "-std=gnu17",
     "-Wshadow", "-Wconversion", "-Wsign-conversion", "-Wunused", "-Wuninitialized",
     "-Wstrict-prototypes", "-Wmissing-prototypes", "-Wmissing-declarations",
     "-Wredundant-decls", "-Wfloat-equal", "-Wdouble-promotion", "-Wformat=2",
@@ -159,7 +159,11 @@ def check_compiler_flags(cc, flags):
     global SKIP_CHECKS
 
     if SKIP_CHECKS:
-        return ['-Iinclude', '-I../third_party/miniaudio/']
+        return [
+            '-Iinclude',
+            '-I../third_party/miniaudio/',
+            '-I../third_party/sqlite-amalgamation-3540100/'
+        ]
 
     test_c_code = "int main() { return 0; }"
     accepted_flags = []
@@ -264,7 +268,7 @@ def generate_config():
 def handle_args(argv):
     global PREFIX, CC, SKIP_CHECKS
     parser = argparse.ArgumentParser(
-        prog='premake.py', description='Precompile step for tm', epilog='Run `make\' after this script')
+        prog='premake.py', description='Precompile step for cadence', epilog='Run `make\' after this script')
     parser.add_argument('--prefix', help='set an install prefix')
     parser.add_argument('--cc', help='set a compiler explicitly')
     parser.add_argument('--skip-checks', action='store_true',
