@@ -5,6 +5,8 @@
 #include "str.h"
 #include "sqlite3.h"
 
+#include <stdint.h>
+
 typedef struct {
         sqlite3_int64 id;
 

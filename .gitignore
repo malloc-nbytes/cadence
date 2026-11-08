@@ -60,4 +60,8 @@ dkms.conf
 /src/bin
 /src/obj
 
-cadence.*
+*.cflags
+*.config
+*.cxxflags
+*.files
+*.includes
