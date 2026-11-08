@@ -1,8 +1,6 @@
 #include "db.h"
 #include "array.h"
 #include "global.h"
-#include "sqlite3.h"
-#include "str.h"
 
 #include <stdio.h>
 
@@ -22,24 +20,6 @@ db_exec(const char *sql)
         }
 
         return 1;
-}
-
-void
-track_destroy(track *tr)
-{
-        str_destroy(&tr->artist);
-        str_destroy(&tr->album);
-        str_destroy(&tr->name);
-        str_destroy(&tr->path);
-}
-
-void
-playlist_destroy(playlist *pl)
-{
-        for (size_t i = 0; i < pl->tracks.len; ++i)
-                track_destroy(&pl->tracks.data[i]);
-        array_free(pl->tracks);
-        str_destroy(&pl->name);
 }
 
 static void

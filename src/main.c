@@ -1,9 +1,15 @@
 #include "global.h"
+#include "array.h"
 #include "db.h"
+#include "player.h"
 #include "term.h"
+#include "commands.h"
+#include "inputs.h"
+#include "art.h"
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 static void
@@ -41,6 +47,27 @@ main(void)
                 return 1;
         }
         atexit(cleanup);
+
+        print_cadence_art();
+        printf("\nType `/' to begin");
+        fflush(stdout);
+
+        cstr_ar autocomplete_commands = array_empty();
+        static char *const cmds[] = COMMAND_MAIN_AS_CPL;
+        for (size_t i = 0; cmds[i]; ++i)
+                array_append(autocomplete_commands, cmds[i]);
+
+        while (1) {
+                char *option;
+                if (!(option = get_input_in_minibuffer("/", autocomplete_commands)))
+                        continue;
+                if (!strcmp(option, COMMAND_MAIN_QUIT))
+                        break;
+                if (!strcmp(option, COMMAND_MAIN_PLAYER))
+                        player_run();
+        }
+
+        array_free(autocomplete_commands);
 
         return 0;
 }
